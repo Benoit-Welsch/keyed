@@ -94,7 +94,6 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        transition: all 0.2s ease;
     }
 
     .light .select-button {

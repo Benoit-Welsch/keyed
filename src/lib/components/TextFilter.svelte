@@ -58,7 +58,6 @@
         border-radius: 0.75rem;
         margin-bottom: 1.5rem;
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-        transition: all 0.3s ease;
     }
 
     .filter-container.light {
