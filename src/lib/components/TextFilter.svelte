@@ -8,13 +8,13 @@
     
     let selectedLanguage = '';
     let selectedDifficulty = '';
-    let excludeSpecialChars = false;
+    let specialChars = true;
 
     function handleFilterChange() {
         onFilterChange({
             language: selectedLanguage,
             difficulty: selectedDifficulty,
-            includeSpecialChars: !excludeSpecialChars
+            includeSpecialChars: specialChars
         });
     }
 </script>
@@ -44,10 +44,10 @@
         <label>
             <input 
                 type="checkbox" 
-                bind:checked={excludeSpecialChars}
+                bind:checked={specialChars}
                 on:change={handleFilterChange}
             >
-            Exclude Special Characters
+            Special Characters
         </label>
     </div>
 </div>
@@ -58,6 +58,12 @@
         border-radius: 0.75rem;
         margin-bottom: 1.5rem;
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: row;
+        align-items: center;
+        gap: 1rem;
     }
 
     .filter-container.light {
@@ -73,8 +79,6 @@
     }
 
     .filter-group {
-        margin-bottom: 1rem;
-        width: 100%;
         max-width: 300px;
     }
 

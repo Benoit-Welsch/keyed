@@ -69,7 +69,6 @@
 <style>
     .custom-select {
         position: relative;
-        width: 100%;
         user-select: none;
         display: flex;
         flex-direction: row;
