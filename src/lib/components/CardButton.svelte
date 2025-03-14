@@ -22,7 +22,7 @@
 <style>
   .card-button {
     flex: 1;
-    min-width: 200px;
+    min-width: 280px;
     padding: 1rem;
     border-radius: 0.5rem;
     border: 2px solid rgba(128, 128, 128, 0.2);
@@ -77,7 +77,7 @@
   }
 
   .badge {
-    padding: 0.2rem 0.4rem;
+    padding: 0.2rem 0.4em;
     border-radius: 0.25rem;
     font-size: 0.8rem;
     color: white;
