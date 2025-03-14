@@ -36,7 +36,7 @@
     use:clickOutside={() => isOpen = false}
 >
     {#if label}
-        <label class="select-label">{label}</label>
+        <label class="select-label" on:click={toggleDropdown}>{label}</label>
     {/if}
     <button 
         type="button" 
@@ -73,7 +73,7 @@
         display: flex;
         flex-direction: row;
         align-items: center;
-        gap: 0.3rem;
+        gap: 0.6rem;
     }
 
     .select-label {
