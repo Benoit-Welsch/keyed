@@ -149,7 +149,7 @@
 
 <style>
     .typing-practice {
-        padding: 2rem;
+        padding: 0.3rem;
         max-width: 800px;
         margin: 0 auto;
     }
