@@ -32,8 +32,9 @@
         cursor: pointer;
         display: flex;
         flex-direction: column;
-        gap: 0.5rem;
+        gap: 0.3rem;
         align-items: flex-start;
+        transition: transform 0.2s, border-color 0.2s;
     }
 
     .card-button.light {
@@ -71,7 +72,7 @@
 
     .badges {
         display: flex;
-        gap: 0.5rem;
+        gap: 0.3rem;
         width: 100%;
         flex-wrap: wrap;
     }

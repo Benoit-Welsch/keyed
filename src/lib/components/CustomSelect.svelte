@@ -73,7 +73,7 @@
         display: flex;
         flex-direction: row;
         align-items: center;
-        gap: 0.5rem;
+        gap: 0.3rem;
     }
 
     .select-label {

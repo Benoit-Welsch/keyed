@@ -160,7 +160,7 @@
 
     .text-options {
         display: flex;
-        gap: 1rem;
+        gap: 0.9rem;
         flex-wrap: wrap;
     }
 
@@ -176,7 +176,7 @@
 
     .stats {
         display: flex;
-        gap: 1rem;
+        gap: 0.9rem;
         margin-bottom: 1rem;
         flex-wrap: wrap;
     }
@@ -234,7 +234,7 @@
 
     .controls {
         display: flex;
-        gap: 1rem;
+        gap: 0.9rem;
     }
 
     button {

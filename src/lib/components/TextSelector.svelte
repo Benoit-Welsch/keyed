@@ -51,7 +51,7 @@
     .text-options {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-        gap: 1rem;
-        margin-top: 1rem;
+        gap: 0.9rem;
+        margin-top: 0.9rem;
     }
 </style> 
