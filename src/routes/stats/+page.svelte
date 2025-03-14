@@ -1,50 +1,39 @@
 <script lang="ts">
   import { stats } from "$lib/stores/stats";
-  import CustomSelect from "$lib/components/CustomSelect.svelte";
-  import { texts } from "$lib/text";
+  import { onMount } from "svelte";
+  import * as echarts from "echarts";
 
-  let availableTexts: string[] = [];
-  let filterText = "";
+  let chartEl: HTMLDivElement;
 
-  function handleFilterChange(event) {}
-
-  // let filteredStats = [];
-  // let averageValue = $stats.length
-  //   ? $stats.reduce((acc, stat) => acc + (stat.value || 0), 0) / $stats.length
-  //   : 0;
-
-  // stats.subscribe((value) => {
-  //   texts.filter((text) => {
-  //     if (value[text.id]) {
-  //       availableTexts.push(text.title);
-  //     }
-  //   });
-
-  //   averageValue = filteredStats.length
-  //     ? filteredStats.reduce((acc, stat) => acc + (stat.value || 0), 0) / filteredStats.length
-  //     : 0;
-  // });
-
-  // $: filteredStats = $stats.filter(stat => stat.text === filterText);
-  // $: averageValue = filteredStats.length
-  // 	? filteredStats.reduce((acc, stat) => acc + (stat.value || 0), 0) / filteredStats.length
-  // 	: 0;
-
-  // function handleFilterChange(event) {
-  // 	// "All" will yield an empty string per CustomSelect behavior.
-  // 	filterText = event.detail.value;
-  // }
+  onMount(() => {
+    const chart = echarts.init(chartEl);
+    // Use the Stats interface: $stats is an object where key is text and value is { attempts: [...] }
+    const series = Object.entries($stats).map(([text, { attempts }]) => {
+      const sortedAttempts = attempts
+        .slice()
+        .sort((a, b) => a.timestamp - b.timestamp);
+      return {
+        name: text,
+        type: "line",
+        data: sortedAttempts.map((attempt, idx) => [idx + 1, attempt.wpm]),
+      };
+    });
+    const option = {
+      title: { text: "WPM Evolution per Text" },
+      tooltip: { trigger: "axis" },
+      legend: { data: series.map((s) => s.name) },
+      xAxis: { type: "value", name: "Attempt", interval: 1 },
+      yAxis: { type: "value", name: "WPM" },
+      series: series,
+    };
+    chart.setOption(option);
+    window.addEventListener("resize", () => chart.resize());
+    return () => chart.dispose();
+  });
 </script>
 
 <main>
   <h1>Stats</h1>
-  <!-- Replace the text input with the CustomSelect -->
-  <!-- <CustomSelect
-    options={availableTexts}
-    value={filterText}
-    label="Select Text"
-    on:change={handleFilterChange}
-  /> -->
-  <!-- <pre>{JSON.stringify(filteredStats, null, 2)}</pre> -->
+  <div bind:this={chartEl} style="width: 100%; height: 400px;"></div>
   <pre>{JSON.stringify($stats, null, 2)}</pre>
 </main>
