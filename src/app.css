@@ -16,4 +16,6 @@ body {
     "Open Sans",
     "Helvetica Neue",
     sans-serif;
+    max-width: 100vw;
+    overflow-x: hidden;
 }
