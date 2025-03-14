@@ -4,6 +4,7 @@
     import { currentText } from '$lib/stores/typing';
     import { onDestroy } from 'svelte';
     import { browser } from '$app/environment';
+    import { stats } from '$lib/stores/stats';
 
     let input = '';
     let currentIndex = 0;
@@ -77,6 +78,25 @@
             if (browser) {
                 window.cancelAnimationFrame(timer);
             }
+            // Update stats: store each attempt in an array per key.
+            stats.update(current => {
+                const key = $currentText.id || $currentText.content;
+                const prevAttempts = current[key]?.attempts || [];
+                const newAttempt = {
+                    wpm: currentWPM,
+                    accuracy,
+                    elapsedTime,
+                    timestamp: Date.now()
+                };
+                return {
+                    ...current,
+                    [key]: {
+                        // Preserve other properties if needed.
+                        ...(current[key] || {}),
+                        attempts: [...prevAttempts, newAttempt]
+                    }
+                };
+            });
         }
     }
 
@@ -303,7 +323,7 @@
     }
 
     .stats > .progress {
-        width: 115              px;
+        width: 115px;
     }    
     
-</style> 
+</style>

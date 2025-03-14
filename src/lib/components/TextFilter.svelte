@@ -24,7 +24,6 @@
         <CustomSelect
             options={languages}
             bind:value={selectedLanguage}
-            label="Language"
             placeholder="All Languages"
             on:change={handleFilterChange}
         />
@@ -34,7 +33,6 @@
         <CustomSelect
             options={difficulties}
             bind:value={selectedDifficulty}
-            label="Difficulty"
             placeholder="All Difficulties"
             on:change={handleFilterChange}
         />
@@ -54,16 +52,15 @@
 
 <style>
     .filter-container {
-        padding: 1.5rem;
+        padding: 0.9rem;
         border-radius: 0.75rem;
-        margin-bottom: 1.5rem;
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 
         display: flex;
         flex-wrap: wrap;
         flex-direction: row;
         align-items: center;
-        gap: 0.9rem;
+        gap: 1.2rem;
     }
 
     .filter-container.light {
@@ -93,7 +90,7 @@
     }
 
     input[type="checkbox"] {
-        margin-right: 0.75rem;
+        margin-right: 0.6rem;
         width: 1.1rem;
         height: 1.1rem;
         cursor: pointer;
