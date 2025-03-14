@@ -3,7 +3,7 @@
     import { textFilter } from '$lib/stores/textFilter';
     import TextFilter from './TextFilter.svelte';
     import { onMount } from 'svelte';
-    import { texts } from '$lib/stores/typing';
+    import { texts } from '$lib/text';
     import CardButton from './CardButton.svelte';
 
     let languages: string[] = [];
