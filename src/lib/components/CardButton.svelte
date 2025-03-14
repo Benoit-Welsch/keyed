@@ -19,6 +19,7 @@
             <span class="badge special">Special Chars</span>
         {/if}
         <span class="badge language">{text.language}</span>
+        <span class="badge char">{text.content.length}</span>
     </div>
 </button>
 
@@ -103,5 +104,10 @@
 
     .badge.language {
         background-color: #9c27b0;
+    }
+
+    .badge.char {
+        background-color: #607d8b;
+        margin-left: auto;
     }
 </style> 

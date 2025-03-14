@@ -50,6 +50,22 @@ const en = [
     difficulty: Difficulty.Easy
   },
   {
+    id: 'long-1',
+    title: 'Extended English Practice I',
+    content: 'This is a long English text meant for advanced practice. The text contains multiple sentences to help improve typing skills. It explains various aspects of programming, including variables, functions, and algorithms, with an emphasis on clarity and structure. Moreover, it elaborates on the differences between imperative and declarative programming paradigms, making it an ideal candidate for long-form typing exercises.',
+    hasSpecialChars: false,
+    language: Language.English,
+    difficulty: Difficulty.Medium
+  },
+  {
+    id: 'long-2',
+    title: 'Extended English Practice II',
+    content: 'Here is another extended text in English, designed to challenge and develop typing endurance. The passage describes the evolution of technology, highlighting major milestones in computer science history. It also discusses the impact of digital transformation on everyday life, inviting readers to reflect on the convergence of technology, art, and society. This comprehensive text offers both educational content and abundant material for practicing speed and accuracy.',
+    hasSpecialChars: false,
+    language: Language.English,
+    difficulty: Difficulty.Medium
+  },
+  {
     id: 'special-1',
     title: 'Special Characters',
     content: 'Hello, World! How are you? Let\'s practice with @#$%^&*()_+ symbols!',
