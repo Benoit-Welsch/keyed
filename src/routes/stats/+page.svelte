@@ -25,7 +25,7 @@
       tooltip: { trigger: "axis" },
       legend: { data: series.map((s) => s.name) },
       xAxis: { type: "value", name: "Attempt", interval: 1 },
-      yAxis: { type: "value", name: "WPM" },
+      yAxis: { type: "value", name: "WPM",scale: true },
       series: series,
     };
     chart.setOption(option);
