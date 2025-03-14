@@ -22,6 +22,7 @@ export interface TextContent {
   hasSpecialChars: boolean;
   language: Language;
   difficulty: Difficulty;
+  type: string;
 }
 
 export interface TypingStats {

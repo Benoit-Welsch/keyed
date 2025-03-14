@@ -4,13 +4,15 @@ interface FilterState {
   language: string;
   difficulty: string;
   includeSpecialChars: boolean;
+  type: string;
 }
 
 function createTextFilterStore() {
   const { subscribe, set, update } = writable<FilterState>({
     language: '',
     difficulty: '',
-    includeSpecialChars: true
+    includeSpecialChars: true,
+    type: '',
   });
 
   return {
@@ -23,6 +25,7 @@ function createTextFilterStore() {
         language: "",
         difficulty: "",
         includeSpecialChars: true,
+        type: "",
       });
     },
   };

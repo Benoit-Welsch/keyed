@@ -8,22 +8,25 @@
 
   let languages: string[] = [];
   let difficulties: string[] = [];
+  let types: string[] = [];
 
   onMount(async () => {
     // Extract unique languages and difficulties
     languages = [...new Set(texts.map((text) => text.language))];
     difficulties = [...new Set(texts.map((text) => text.difficulty))];
+    types = [...new Set(texts.map((text) => text.type))];
   });
 
   $: filteredTexts = texts.filter((text) => {
     const filter = $textFilter;
 
-    if (filter.language && text.language !== filter.language) return false;
-    if (filter.difficulty && text.difficulty !== filter.difficulty)
-      return false;
-    if (!filter.includeSpecialChars && text.hasSpecialChars) return false;
-
-    return true;
+    // Check if text matches all filter criteria
+    return (
+      (!filter.language || text.language === filter.language) &&
+      (!filter.difficulty || text.difficulty === filter.difficulty) &&
+      (filter.includeSpecialChars || !text.hasSpecialChars) &&
+      (filter.type === "" || text.type === filter.type)
+    );
   });
 </script>
 
@@ -31,6 +34,7 @@
   <TextFilter
     {languages}
     {difficulties}
+    {types}
     onFilterChange={(event) => textFilter.updateFilter(event)}
   />
   <div class="text-options">
@@ -51,7 +55,7 @@
 
   .text-options {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
     gap: 0.9rem;
     margin-top: 0.9rem;
   }

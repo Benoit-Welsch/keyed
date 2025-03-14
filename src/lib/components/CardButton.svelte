@@ -8,21 +8,24 @@
 </script>
 
 <button class="card-button {$theme}" class:selected on:click>
-  <h2 class="title">{text.title}</h2>
+  <h2 class="title">
+    {text.title}
+    <span class="badge char">{text.content.length}</span>
+  </h2>
   <div class="badges">
     <span class="badge difficulty {text.difficulty}">{text.difficulty}</span>
     {#if text.hasSpecialChars}
       <span class="badge special">Special Chars</span>
     {/if}
     <span class="badge language">{text.language}</span>
-    <span class="badge char">{text.content.length}</span>
+    <span class="badge type">{text.type}</span>
   </div>
 </button>
 
 <style>
   .card-button {
     flex: 1;
-    min-width: 280px;
+    min-width: 305px;
     padding: 1rem;
     border-radius: 0.5rem;
     border: 2px solid rgba(128, 128, 128, 0.2);
@@ -67,6 +70,8 @@
   .title {
     font-weight: bold;
     margin: 0;
+    display: flex;
+    width: 100%; 
   }
 
   .badges {
@@ -102,6 +107,10 @@
 
   .badge.language {
     background-color: #9c27b0;
+  }
+
+  .badge.type {
+    background-color: #2aceb8;
   }
 
   .badge.char {

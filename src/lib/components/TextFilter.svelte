@@ -4,21 +4,25 @@
 
   export let languages: string[] = [];
   export let difficulties: string[] = [];
+  export let types: string[] = [];
+
   export let onFilterChange: (event: {
     language: string;
     difficulty: string;
     includeSpecialChars: boolean;
+    type: string;
   }) => void;
 
   let selectedLanguage = "";
   let selectedDifficulty = "";
   let specialChars = true;
-
+  let selectedType = "";
   function handleFilterChange() {
     onFilterChange({
       language: selectedLanguage,
       difficulty: selectedDifficulty,
       includeSpecialChars: specialChars,
+      type: selectedType,
     });
   }
 </script>
@@ -42,6 +46,14 @@
     />
   </div>
 
+  <div class="filter-group">
+    <CustomSelect
+      options={types}
+      bind:value={selectedType}
+      placeholder="All Types"
+      on:change={handleFilterChange}
+    />
+  </div>
   <div class="filter-group checkbox">
     <label>
       <input
@@ -80,7 +92,7 @@
   }
 
   .filter-group {
-    max-width: 300px;
+    max-width: 310px;
   }
 
   .filter-group.checkbox {
