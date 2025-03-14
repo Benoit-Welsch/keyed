@@ -11,10 +11,33 @@
 
   let isOpen = false;
   let selectedLabel = "";
+  let maxWidth = "0px";
 
   // Add "All" option to the list while preserving the original options
   $: allOptions = ["All", ...options];
   $: selectedLabel = value || placeholder;
+  
+  // Calculate the maximum width based on all possible options including placeholder
+  $: {
+    if (typeof document !== 'undefined') {
+      const span = document.createElement('span');
+      span.style.visibility = 'hidden';
+      span.style.position = 'absolute';
+      span.style.whiteSpace = 'nowrap';
+      span.style.fontSize = '0.95rem';
+      document.body.appendChild(span);
+      
+      const allTexts = [placeholder, ...allOptions];
+      const widths = allTexts.map(text => {
+        span.textContent = text;
+        return span.offsetWidth;
+      });
+      
+      document.body.removeChild(span);
+      // Add some padding for the arrow and margins
+      maxWidth = `${Math.max(...widths) + 50}px`;
+    }
+  }
 
   const dispatch = createEventDispatcher();
 
@@ -38,6 +61,7 @@
   <button
     type="button"
     class="select-button"
+    style="min-width: {maxWidth}"
     on:click={toggleDropdown}
     aria-haspopup="listbox"
     aria-expanded={isOpen}
@@ -47,7 +71,7 @@
   </button>
 
   {#if isOpen}
-    <div class="options-container" transition:slide={{ duration: 200 }}>
+    <div class="options-container" style="min-width: {maxWidth}" transition:slide={{ duration: 200 }}>
       {#each allOptions as option}
         <button
           class="option"
@@ -125,10 +149,8 @@
 
   .options-container {
     position: absolute;
-    width: 68%;
     top: 100%;
     left: 32%;
-    right: 0;
     margin-top: 0.5rem;
     border-radius: 0.5rem;
     overflow: hidden;
