@@ -14,6 +14,7 @@
     let elapsedTime = 0;
     let timer: number;
     let currentWPM = 0;
+    let currentCPM = 0; // new variable for characters per minute
 
     $: accuracy = currentIndex === 0 ? 100 : ((currentIndex - mistakes) / currentIndex) * 100;
     $: progress = (currentIndex / $currentText.content.length) * 100;
@@ -27,6 +28,7 @@
         if (startTime && !isFinished && browser) {
             elapsedTime = Date.now() - startTime;
             currentWPM = calculateWPM();
+            currentCPM = calculateCPM(); // update CPM every frame
             timer = window.requestAnimationFrame(updateTimer);
         }
     }
@@ -36,6 +38,12 @@
         const minutes = elapsedTime / 1000 / 60; // convert ms to minutes
         const words = currentIndex / 5; // standard: 5 characters = 1 word
         return Math.round(words / minutes);
+    }
+
+    function calculateCPM() { // new function for CPM
+        if (!startTime || currentIndex === 0) return 0;
+        const minutes = elapsedTime / 1000 / 60;
+        return Math.round(currentIndex / minutes);
     }
 
     function handleKeydown(event: KeyboardEvent) {
@@ -108,6 +116,7 @@
         startTime = null;
         elapsedTime = 0;
         currentWPM = 0;
+        currentCPM = 0; // reset the CPM counter
         progress = 0;
 
         if (browser) {
@@ -125,6 +134,7 @@
 <div class="typing-practice {$theme}" class:finished={isFinished}>
     <div class="stats">
         <div class="stat wpm">WPM: {currentWPM}</div>
+        <div class="stat cpm">CPM: {currentCPM}</div> <!-- new stat for CPM -->
         <div class="stat time">Time: {(elapsedTime / 1000).toFixed(1)}s</div>
         <div class="stat accuracy">Accuracy: {accuracy.toFixed(1)}%</div>
         <div class="stat progress">Progress: {Math.round(progress)}%</div>
@@ -326,4 +336,7 @@
         width: 115px;
     }    
     
+    .stats > .cpm {
+        width: 80px;
+    }
 </style>
