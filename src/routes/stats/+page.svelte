@@ -1,13 +1,12 @@
 <script lang="ts">
-  import { stats } from "/workspaces/key-master/src/lib/stores/stats";
-  import CustomSelect from "/workspaces/key-master/src/lib/components/CustomSelect.svelte";
+  import { stats } from "$lib/stores/stats";
+  import CustomSelect from "$lib/components/CustomSelect.svelte";
   import { texts } from "$lib/text";
 
   let availableTexts: string[] = [];
   let filterText = "";
 
-  function handleFilterChange(event) {
-  }
+  function handleFilterChange(event) {}
 
   // let filteredStats = [];
   // let averageValue = $stats.length
