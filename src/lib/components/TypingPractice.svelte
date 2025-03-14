@@ -92,6 +92,7 @@
                 const prevAttempts = current[key]?.attempts || [];
                 const newAttempt = {
                     wpm: currentWPM,
+                    cpm: currentCPM,
                     accuracy,
                     elapsedTime,
                     timestamp: Date.now()

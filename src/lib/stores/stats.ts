@@ -2,7 +2,7 @@ import { writable } from "svelte/store";
 
 const LOCAL_KEY = "typingStats";
 
-interface Stats { [key: string]: { attempts: [{ wpm: number, accuracy: number, elapsedTime: number, timestamp: number }] } }
+interface Stats { [key: string]: { attempts: { wpm: number, cpm: number, accuracy: number, elapsedTime: number, timestamp: number }[] } }
 
 function loadStats() {
   if (typeof localStorage !== "undefined") {
