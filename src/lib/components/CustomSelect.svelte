@@ -128,9 +128,9 @@
 
     .options-container {
         position: absolute;
-        width: 33%;
+        width: 68%;
         top: 100%;
-        left: 25%;
+        left: 32%;
         right: 0;
         margin-top: 0.5rem;
         border-radius: 0.5rem;
