@@ -19,7 +19,7 @@
   </main>
 
   <footer>
-    <p>Practice your typing skills with KeyMaster</p>
+    <p>Practice your typing skills</p>
   </footer>
 </div>
 
