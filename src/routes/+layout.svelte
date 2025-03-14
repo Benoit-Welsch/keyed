@@ -46,7 +46,7 @@
 
 	main {
 		flex: 1;
-		padding: 2rem;
+		padding: 0.9rem;
 	}
 
 	footer {
