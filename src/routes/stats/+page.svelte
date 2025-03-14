@@ -25,7 +25,7 @@
       tooltip: { trigger: "axis" },
       legend: { data: series.map((s) => s.name) },
       xAxis: { type: "value", name: "Attempt", interval: 1 },
-      yAxis: { type: "value", name: "WPM",scale: true },
+      yAxis: { type: "value", name: "WPM", scale: true },
       series: series,
     };
     chart.setOption(option);
@@ -37,7 +37,7 @@
 <main>
   <h1>Stats</h1>
   <div bind:this={chartEl} style="width: 100%; height: 400px;"></div>
-  <button on:click={() => (showRawStats = !showRawStats)} class="{$theme}">
+  <button on:click={() => (showRawStats = !showRawStats)} class={$theme}>
     {showRawStats ? "Hide" : "Show"} Raw Stats
   </button>
   {#if showRawStats}

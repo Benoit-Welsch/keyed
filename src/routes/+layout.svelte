@@ -1,5 +1,5 @@
 <script lang="ts">
-  import "../app.css"
+  import "../app.css";
   import { theme } from "$lib/stores/theme";
 </script>
 
@@ -57,13 +57,13 @@
   a {
     text-decoration: none;
     color: inherit;
-		filter: brightness(0.9);
+    filter: brightness(0.9);
   }
 
-	a:hover {
-		text-decoration: underline;
-		filter: brightness(1);
-	}
+  a:hover {
+    text-decoration: underline;
+    filter: brightness(1);
+  }
 
   main {
     flex: 1;
@@ -89,6 +89,4 @@
     margin: 0;
     font-size: 1.5rem;
   }
-
-
 </style>
