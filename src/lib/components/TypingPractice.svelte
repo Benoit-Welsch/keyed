@@ -212,7 +212,7 @@
     }
 
     .typing-input {
-        width: 100%;
+        width: calc(100% - 2rem);
         padding: 1rem;
         font-family: monospace;
         font-size: 1.2rem;
