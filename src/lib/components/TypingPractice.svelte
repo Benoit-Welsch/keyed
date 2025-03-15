@@ -55,8 +55,6 @@
   }
 
   function handleKeydown(event: KeyboardEvent) {
-    console.log(event.key);
-    // Check for Left + R combination
     if (
       (event.key.toLowerCase() === "r" && event.altKey) ||
       event.key === "®"
