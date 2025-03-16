@@ -2,7 +2,7 @@
 <script lang="ts">
   import { theme } from "$lib/stores/theme";
   import { currentText } from "$lib/stores/typing";
-  import { onDestroy } from "svelte";
+  import { onDestroy, onMount } from "svelte";
   import { browser } from "$app/environment";
   import { stats } from "$lib/stores/stats";
   import { isMac, isMobile } from "$lib/stores/device";
@@ -10,44 +10,63 @@
   let input = "";
   let currentIndex = 0;
   let mistakes = 0;
+  let correctChars = 0;
+  let correctWords = 0;
+  let currentWordStart = 0;
+  let currentWordMistakes = 0;  // Track mistakes in current word
   let isFinished = false;
   let startTime: number | null = null;
   let elapsedTime = 0;
   let timer: number;
   let currentWPM = 0;
-  let currentCPM = 0; // new variable for characters per minute
+  let currentCPM = 0;
+  let inputElement: HTMLInputElement;
+  let typedChars: string[] = [];  // Track typed characters
 
   $: accuracy =
     currentIndex === 0 ? 100 : ((currentIndex - mistakes) / currentIndex) * 100;
   $: progress = (currentIndex / $currentText.content.length) * 100;
 
-  // Detect OS on mount
   $: {
-    $currentText; // Track changes to currentText
+    $currentText;
     reset();
   }
+
+  onMount(() => {
+    const handleWindowKeydown = (event: KeyboardEvent) => {
+      if ((event.key.toLowerCase() === "r" && event.altKey) || event.key === "®") {
+        event.preventDefault();
+        reset();
+      }
+    };
+
+    window.addEventListener("keydown", handleWindowKeydown);
+    inputElement?.focus();
+
+    return () => {
+      window.removeEventListener("keydown", handleWindowKeydown);
+    };
+  });
 
   function updateTimer() {
     if (startTime && !isFinished && browser) {
       elapsedTime = Date.now() - startTime;
       currentWPM = calculateWPM();
-      currentCPM = calculateCPM(); // update CPM every frame
+      currentCPM = calculateCPM(); 
       timer = window.requestAnimationFrame(updateTimer);
     }
   }
 
   function calculateWPM() {
-    if (!startTime || currentIndex === 0) return 0;
-    const minutes = elapsedTime / 1000 / 60; // convert ms to minutes
-    const words = currentIndex / 5; // standard: 5 characters = 1 word
-    return Math.round(words / minutes);
+    if (!startTime || correctWords === 0) return 0;
+    const minutes = elapsedTime / 1000 / 60;
+    return Math.round(correctWords / minutes);
   }
 
   function calculateCPM() {
-    // new function for CPM
-    if (!startTime || currentIndex === 0) return 0;
+    if (!startTime || correctChars === 0) return 0;
     const minutes = elapsedTime / 1000 / 60;
-    return Math.round(currentIndex / minutes);
+    return Math.round(correctChars / minutes);
   }
 
   function handleKeydown(event: KeyboardEvent) {
@@ -70,47 +89,80 @@
     // Handle backspace
     if (event.key === "Backspace") {
       if (currentIndex > 0) {
+        // Check if we're backspacing into the previous word
+        if (currentIndex > 0 && $currentText.content[currentIndex - 1] === ' ') {
+          correctWords = Math.max(0, correctWords - 1);
+          // Find the start of the previous word
+          const textUpToCurrent = $currentText.content.slice(0, currentIndex - 1);
+          currentWordStart = textUpToCurrent.lastIndexOf(' ') + 1;
+          currentWordMistakes = 0;  // Reset word mistakes
+        }
         currentIndex--;
+        typedChars[currentIndex] = '';  // Remove the last typed character
       }
       return;
     }
 
     // Ignore special keys that aren't regular characters
     if (event.key.length !== 1) return;
-    // Don't prevent default for regular typing
-    const expectedChar = $currentText.content[currentIndex];
-    if (event.key === expectedChar) {
-      currentIndex++;
-    } else {
-      currentIndex++;
-      mistakes++;
-    }
 
-    if (currentIndex === $currentText.content.length) {
-      isFinished = true;
-      if (browser) {
-        window.cancelAnimationFrame(timer);
+    const expectedChar = $currentText.content[currentIndex];
+
+    // Check if this will be the last character
+    const isLastChar = currentIndex === $currentText.content.length - 1;
+
+    if (event.key === expectedChar) {
+      correctChars++;
+      typedChars[currentIndex] = event.key;  // Store the typed character
+
+      // Check if we just typed a space or if this is the last character
+      if (expectedChar === ' ' || isLastChar) {
+        // If we had no mistakes in this word, increment the word count
+        if (currentWordMistakes === 0) {
+          correctWords++;
+        }
+        currentWordStart = currentIndex + 1;
+        currentWordMistakes = 0;  // Reset for next word
       }
-      // Update stats: store each attempt in an array per key.
-      stats.update((current) => {
-        const key = $currentText.id || $currentText.content;
-        const prevAttempts = current[key]?.attempts || [];
-        const newAttempt = {
-          wpm: currentWPM,
-          cpm: currentCPM,
-          accuracy,
-          elapsedTime,
-          timestamp: Date.now(),
-        };
-        return {
-          ...current,
-          [key]: {
-            // Preserve other properties if needed.
-            ...(current[key] || {}),
-            attempts: [...prevAttempts, newAttempt],
-          },
-        };
-      });
+
+      currentIndex++;
+
+      // Handle completion after successful last character
+      if (currentIndex === $currentText.content.length) {
+        isFinished = true;
+        if (browser) {
+          window.cancelAnimationFrame(timer);
+        }
+        // Calculate final stats based on total time and counts
+        const finalMinutes = elapsedTime / 1000 / 60;
+        const finalWPM = Math.round(correctWords / finalMinutes);
+        const finalCPM = Math.round(correctChars / finalMinutes);
+
+        // Update stats: store each attempt in an array per key.
+        stats.update((current) => {
+          const key = $currentText.id || $currentText.content;
+          const prevAttempts = current[key]?.attempts || [];
+          const newAttempt = {
+            wpm: finalWPM,
+            cpm: finalCPM,
+            accuracy,
+            elapsedTime,
+            timestamp: Date.now(),
+          };
+          return {
+            ...current,
+            [key]: {
+              ...(current[key] || {}),
+              attempts: [...prevAttempts, newAttempt],
+            },
+          };
+        });
+      }
+    } else {
+      mistakes++;
+      currentWordMistakes++;  // Track mistake in current word
+      typedChars[currentIndex] = event.key;  // Store the wrong character
+      currentIndex++;
     }
   }
 
@@ -118,16 +170,26 @@
     input = "";
     currentIndex = 0;
     mistakes = 0;
+    correctChars = 0;
+    correctWords = 0;
+    currentWordStart = 0;
+    currentWordMistakes = 0;
+    typedChars = [];  // Reset typed characters
     isFinished = false;
     startTime = null;
     elapsedTime = 0;
     currentWPM = 0;
-    currentCPM = 0; // reset the CPM counter
+    currentCPM = 0;
     progress = 0;
 
     if (browser) {
       window.cancelAnimationFrame(timer);
     }
+
+    // Focus the input after reset
+    setTimeout(() => {
+      inputElement?.focus();
+    }, 0);
   }
 
   onDestroy(() => {
@@ -154,9 +216,9 @@
   <div class="text-display">
     {#each $currentText.content.split("") as char, i}
       <span
-        class:correct={i < currentIndex && input[i] === char}
-        class:incorrect={i < currentIndex && input[i] !== char}
-        class:current={i === currentIndex}
+        class:correct={(i < currentIndex || (isFinished && i === currentIndex - 1)) && typedChars[i] === char}
+        class:incorrect={(i < currentIndex || (isFinished && i === currentIndex - 1)) && typedChars[i] !== char}
+        class:current={i === currentIndex && !isFinished}
       >
         {char}
       </span>
@@ -164,6 +226,7 @@
   </div>
 
   <input
+    bind:this={inputElement}
     type="text"
     bind:value={input}
     disabled={isFinished}
