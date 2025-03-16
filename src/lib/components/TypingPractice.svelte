@@ -5,6 +5,7 @@
   import { onDestroy } from "svelte";
   import { browser } from "$app/environment";
   import { stats } from "$lib/stores/stats";
+    import { isMac, isMobile } from "$lib/stores/device";
 
   let input = "";
   let currentIndex = 0;
@@ -15,17 +16,12 @@
   let timer: number;
   let currentWPM = 0;
   let currentCPM = 0; // new variable for characters per minute
-  let isMac = false;
 
   $: accuracy =
     currentIndex === 0 ? 100 : ((currentIndex - mistakes) / currentIndex) * 100;
   $: progress = (currentIndex / $currentText.content.length) * 100;
 
   // Detect OS on mount
-  $: if (browser) {
-    isMac = navigator.platform.toLowerCase().includes("mac");
-  }
-
   $: {
     $currentText; // Track changes to currentText
     reset();
@@ -189,7 +185,12 @@
 
   <div class="controls">
     <button on:click={reset}>
-      Reset <span class="shortcut">{isMac ? "⌥R" : "Alt+R"}</span>
+      Reset
+      {#if isMac}
+        <span class="shortcut">⌥R</span>
+      {:else if !isMobile}
+        <span class="shortcut">Alt+R</span>
+      {/if}
     </button>
     {#if isFinished}
       <div class="completion-message">
