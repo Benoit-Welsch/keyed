@@ -5,7 +5,7 @@
   import { onDestroy } from "svelte";
   import { browser } from "$app/environment";
   import { stats } from "$lib/stores/stats";
-    import { isMac, isMobile } from "$lib/stores/device";
+  import { isMac, isMobile } from "$lib/stores/device";
 
   let input = "";
   let currentIndex = 0;
@@ -71,25 +71,17 @@
     if (event.key === "Backspace") {
       if (currentIndex > 0) {
         currentIndex--;
-        input = input.slice(0, -1);
       }
       return;
     }
 
-    // Ignore special keys
+    // Ignore special keys that aren't regular characters
     if (event.key.length !== 1) return;
 
-    // Prevent default to handle the input manually
-    event.preventDefault();
-
-    const expectedChar = $currentText.content[currentIndex];
-    const typedChar = event.key;
-
-    if (typedChar === expectedChar) {
-      input += typedChar;
+    // Don't prevent default for regular typing
+    if (event.key === expectedChar) {
       currentIndex++;
     } else {
-      input += typedChar;
       currentIndex++;
       mistakes++;
     }
@@ -173,7 +165,7 @@
 
   <input
     type="text"
-    value={input}
+    bind:value={input}
     disabled={isFinished}
     placeholder="Start typing..."
     class="typing-input"
