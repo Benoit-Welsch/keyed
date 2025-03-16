@@ -77,8 +77,8 @@
 
     // Ignore special keys that aren't regular characters
     if (event.key.length !== 1) return;
-
     // Don't prevent default for regular typing
+    const expectedChar = $currentText.content[currentIndex];
     if (event.key === expectedChar) {
       currentIndex++;
     } else {
