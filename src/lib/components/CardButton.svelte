@@ -19,7 +19,6 @@
     {#if text.hasSpecialChars}
       <span class="badge special">Special Chars</span>
     {/if}
-
   </div>
 </button>
 
@@ -46,7 +45,7 @@
   }
 
   .card-button.oled {
-    background: rgba(255, 255, 255, 0.05);
+    background-color: hsla(0, 0%, 10%, 0.5);
     color: #ffffff;
     border-color: #333;
   }
@@ -72,7 +71,7 @@
     font-weight: bold;
     margin: 0;
     display: flex;
-    width: 100%; 
+    width: 100%;
   }
 
   .badges {

@@ -66,7 +66,7 @@
   }
 
   .text-selector.oled {
-    background-color: #1a1a1a;
+    background-color: hsla(0, 0%, 10%, 0.5);
     color: #ffffff;
     border: 1px solid #333333;
   }
