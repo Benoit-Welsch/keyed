@@ -41,7 +41,7 @@
   }
 
   header {
-    padding: 1rem 2rem;
+    padding: 0.3rem 1.2rem;
     display: flex;
     justify-content: space-between;
     align-items: center;

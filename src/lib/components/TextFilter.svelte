@@ -68,27 +68,11 @@
 
 <style>
   .filter-container {
-    padding: 0.9rem;
-    border-radius: 0.75rem;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
     align-items: center;
-    gap: 1.2rem;
-  }
-
-  .filter-container.light {
-    background-color: #ffffff;
-    color: #333333;
-    border: 1px solid #e0e0e0;
-  }
-
-  .filter-container.oled {
-    background-color: #1a1a1a;
-    color: #ffffff;
-    border: 1px solid #333333;
+    gap: 0.6em;
   }
 
   .filter-group {
@@ -102,7 +86,7 @@
   label {
     min-width: 100px;
     font-weight: 500;
-    font-size: 0.95rem;
+    font-size: 0.9rem;
   }
 
   input[type="checkbox"] {

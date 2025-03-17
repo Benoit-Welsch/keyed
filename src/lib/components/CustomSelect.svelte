@@ -100,7 +100,7 @@
   .select-label {
     display: block;
     font-weight: 500;
-    font-size: 0.95rem;
+    font-size: 0.9rem;
   }
 
   .select-button {
@@ -108,12 +108,14 @@
     border: 2px solid transparent;
     border-radius: 0.5rem;
     background: none;
-    font-size: 0.95rem;
+    font-weight: bold;
+    font-size: 0.9rem;
     text-align: left;
     cursor: pointer;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    text-transform: capitalize;
   }
 
   .light .select-button {
@@ -179,6 +181,7 @@
     text-align: left;
     cursor: pointer;
     transition: all 0.2s ease;
+    text-transform: capitalize;
   }
 
   .light .option {

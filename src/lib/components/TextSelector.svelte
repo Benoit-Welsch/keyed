@@ -5,6 +5,7 @@
   import { onMount } from "svelte";
   import { texts } from "$lib/text";
   import CardButton from "./CardButton.svelte";
+    import { theme } from "$lib/stores/theme";
 
   let languages: string[] = [];
   let difficulties: string[] = [];
@@ -30,7 +31,7 @@
   });
 </script>
 
-<div class="text-selector">
+<div class="text-selector" class:light={$theme === "light"} class:oled={$theme === "oled"}>
   <TextFilter
     {languages}
     {difficulties}
@@ -51,6 +52,23 @@
 <style>
   .text-selector {
     margin-bottom: 0.9rem;
+    border-radius: 0.75rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    padding: 0.9rem;
+    max-height: 500px;
+    overflow-y: auto;
+  }
+
+  .text-selector.light {
+    background-color: #ffffff;
+    color: #333333;
+    border: 1px solid #e0e0e0;
+  }
+
+  .text-selector.oled {
+    background-color: #1a1a1a;
+    color: #ffffff;
+    border: 1px solid #333333;
   }
 
   .text-options {

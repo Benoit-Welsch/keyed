@@ -13,12 +13,13 @@
     <span class="badge char">{text.content.length}</span>
   </h2>
   <div class="badges">
+    <span class="badge language">{text.language}</span>
     <span class="badge difficulty {text.difficulty}">{text.difficulty}</span>
+    <span class="badge type">{text.type}</span>
     {#if text.hasSpecialChars}
       <span class="badge special">Special Chars</span>
     {/if}
-    <span class="badge language">{text.language}</span>
-    <span class="badge type">{text.type}</span>
+
   </div>
 </button>
 
@@ -26,7 +27,7 @@
   .card-button {
     flex: 1;
     min-width: 305px;
-    padding: 1rem;
+    padding: 0.8rem;
     border-radius: 0.5rem;
     border: 2px solid rgba(128, 128, 128, 0.2);
     cursor: pointer;
@@ -84,9 +85,9 @@
   .badge {
     padding: 0.2rem 0.4em;
     border-radius: 0.25rem;
-    font-size: 0.8rem;
-    color: white;
+    font-size: 0.85rem;
     text-transform: capitalize;
+    color: white;
   }
 
   .badge.difficulty.easy {
@@ -106,15 +107,15 @@
   }
 
   .badge.language {
-    background-color: #9c27b0;
+    background-color: #8e2092;
   }
 
   .badge.type {
-    background-color: #2aceb8;
+    background-color: #29a796;
   }
 
   .badge.char {
-    background-color: #607d8b;
+    background-color: #536974;
     margin-left: auto;
   }
 </style>
