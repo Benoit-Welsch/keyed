@@ -13,7 +13,7 @@
   let correctChars = 0;
   let correctWords = 0;
   let currentWordStart = 0;
-  let currentWordMistakes = 0;  // Track mistakes in current word
+  let currentWordMistakes = 0; // Track mistakes in current word
   let isFinished = false;
   let startTime: number | null = null;
   let elapsedTime = 0;
@@ -21,7 +21,7 @@
   let currentWPM = 0;
   let currentCPM = 0;
   let inputElement: HTMLInputElement;
-  let typedChars: string[] = [];  // Track typed characters
+  let typedChars: string[] = []; // Track typed characters
 
   $: accuracy =
     currentIndex === 0 ? 100 : ((currentIndex - mistakes) / currentIndex) * 100;
@@ -34,7 +34,10 @@
 
   onMount(() => {
     const handleWindowKeydown = (event: KeyboardEvent) => {
-      if ((event.key.toLowerCase() === "r" && event.altKey) || event.key === "®") {
+      if (
+        (event.key.toLowerCase() === "r" && event.altKey) ||
+        event.key === "®"
+      ) {
         event.preventDefault();
         reset();
       }
@@ -52,7 +55,7 @@
     if (startTime && !isFinished && browser) {
       elapsedTime = Date.now() - startTime;
       currentWPM = calculateWPM();
-      currentCPM = calculateCPM(); 
+      currentCPM = calculateCPM();
       timer = window.requestAnimationFrame(updateTimer);
     }
   }
@@ -90,15 +93,21 @@
     if (event.key === "Backspace") {
       if (currentIndex > 0) {
         // Check if we're backspacing into the previous word
-        if (currentIndex > 0 && $currentText.content[currentIndex - 1] === ' ') {
+        if (
+          currentIndex > 0 &&
+          $currentText.content[currentIndex - 1] === " "
+        ) {
           correctWords = Math.max(0, correctWords - 1);
           // Find the start of the previous word
-          const textUpToCurrent = $currentText.content.slice(0, currentIndex - 1);
-          currentWordStart = textUpToCurrent.lastIndexOf(' ') + 1;
-          currentWordMistakes = 0;  // Reset word mistakes
+          const textUpToCurrent = $currentText.content.slice(
+            0,
+            currentIndex - 1
+          );
+          currentWordStart = textUpToCurrent.lastIndexOf(" ") + 1;
+          currentWordMistakes = 0; // Reset word mistakes
         }
         currentIndex--;
-        typedChars[currentIndex] = '';  // Remove the last typed character
+        typedChars[currentIndex] = ""; // Remove the last typed character
       }
       return;
     }
@@ -113,16 +122,16 @@
 
     if (event.key === expectedChar) {
       correctChars++;
-      typedChars[currentIndex] = event.key;  // Store the typed character
+      typedChars[currentIndex] = event.key; // Store the typed character
 
       // Check if we just typed a space or if this is the last character
-      if (expectedChar === ' ' || isLastChar) {
+      if (expectedChar === " " || isLastChar) {
         // If we had no mistakes in this word, increment the word count
         if (currentWordMistakes === 0) {
           correctWords++;
         }
         currentWordStart = currentIndex + 1;
-        currentWordMistakes = 0;  // Reset for next word
+        currentWordMistakes = 0; // Reset for next word
       }
 
       currentIndex++;
@@ -160,8 +169,8 @@
       }
     } else {
       mistakes++;
-      currentWordMistakes++;  // Track mistake in current word
-      typedChars[currentIndex] = event.key;  // Store the wrong character
+      currentWordMistakes++; // Track mistake in current word
+      typedChars[currentIndex] = event.key; // Store the wrong character
       currentIndex++;
     }
   }
@@ -174,7 +183,7 @@
     correctWords = 0;
     currentWordStart = 0;
     currentWordMistakes = 0;
-    typedChars = [];  // Reset typed characters
+    typedChars = []; // Reset typed characters
     isFinished = false;
     startTime = null;
     elapsedTime = 0;
@@ -202,12 +211,27 @@
 <!-- svelte-ignore a11y_no_static_element_interactions -->
 <div class="typing-practice {$theme}" class:finished={isFinished}>
   <div class="stats">
-    <div class="stat wpm">WPM: {currentWPM}</div>
-    <div class="stat cpm">CPM: {currentCPM}</div>
+    <div class="stat wpm">
+      <span class="label"> WPM: </span>
+      <span class="value">{currentWPM}</span>
+    </div>
+    <div class="stat cpm">
+      <span class="label"> CPM: </span>
+      <span class="value">{currentCPM}</span>
+    </div>
     <!-- new stat for CPM -->
-    <div class="stat time">Time: {(elapsedTime / 1000).toFixed(1)}s</div>
-    <div class="stat accuracy">Accuracy: {accuracy.toFixed(1)}%</div>
-    <div class="stat progress">Progress: {Math.round(progress)}%</div>
+    <div class="stat time">
+      <span class="label"> Time: </span>
+      <span class="value"> {(elapsedTime / 1000).toFixed(1)}s</span>
+    </div>
+    <div class="stat accuracy">
+      <span class="label"> Accuracy: </span>
+      <span class="value">{accuracy.toFixed(1)}%</span>
+    </div>
+    <div class="stat progress">
+      <span class="label"> Progress: </span>
+      <span class="value">{Math.round(progress)}%</span>
+    </div>
     <div class="progress-bar">
       <div class="progress" style="width: {progress}%"></div>
     </div>
@@ -216,8 +240,12 @@
   <div class="text-display">
     {#each $currentText.content.split("") as char, i}
       <span
-        class:correct={(i < currentIndex || (isFinished && i === currentIndex - 1)) && typedChars[i] === char}
-        class:incorrect={(i < currentIndex || (isFinished && i === currentIndex - 1)) && typedChars[i] !== char}
+        class:correct={(i < currentIndex ||
+          (isFinished && i === currentIndex - 1)) &&
+          typedChars[i] === char}
+        class:incorrect={(i < currentIndex ||
+          (isFinished && i === currentIndex - 1)) &&
+          typedChars[i] !== char}
         class:current={i === currentIndex && !isFinished}
       >
         {char}
@@ -240,7 +268,7 @@
 
   <div class="controls">
     <button on:click={reset}>
-      Reset
+      <span> Reset </span>
       {#if isMac}
         <span class="shortcut">⌥R</span>
       {:else if !isMobile}
@@ -263,10 +291,6 @@
     margin: 0 auto;
   }
 
-  .text-selector {
-    margin-bottom: 2rem;
-  }
-
   .text-options {
     display: flex;
     gap: 0.9rem;
@@ -285,13 +309,14 @@
 
   .stats {
     display: flex;
-    gap: 0.9rem;
-    margin-bottom: 1rem;
+    gap: 0.6rem;
     flex-wrap: wrap;
   }
 
   .stat {
-    padding: 0.5rem 1rem;
+    flex: 1;
+    width: 150px;
+    padding: 0.3rem 0.6rem;
     border-radius: 0.5rem;
     background-color: rgba(128, 128, 128, 0.1);
   }
@@ -300,7 +325,7 @@
     font-family: monospace;
     font-size: 1.2rem;
     line-height: 1.6;
-    margin: 2rem 0;
+    margin: 1.2rem 0;
     white-space: pre-wrap;
   }
 
@@ -343,11 +368,16 @@
 
   .controls {
     display: flex;
-    gap: 0.9rem;
+    gap: 0.3rem;
+  }
+
+  .controls button {
+    display: flex;
+    align-items: center;
   }
 
   button {
-    padding: 0.5rem 1rem;
+    padding: 0.3rem 0.6rem;
     border-radius: 0.5rem;
     border: none;
     cursor: pointer;

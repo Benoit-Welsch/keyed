@@ -50,7 +50,7 @@
 
 <style>
   .text-selector {
-    margin-bottom: 2rem;
+    margin-bottom: 0.9rem;
   }
 
   .text-options {
