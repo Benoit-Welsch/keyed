@@ -3,6 +3,10 @@ declare global {
     // interface Error {}
     interface Locals {
       db: import("drizzle-orm/d1").DrizzleD1Database;
+      user?: {
+        username: string;
+        role: string;
+      };
     }
     // interface PageData {}
     interface Platform {

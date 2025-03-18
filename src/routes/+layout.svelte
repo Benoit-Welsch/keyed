@@ -1,6 +1,8 @@
 <script lang="ts">
   import "../app.css";
   import { theme } from "$lib/stores/theme";
+  import type { PageData } from "./$types";
+  export let data: PageData;
 </script>
 
 <div class="app {$theme}">
@@ -8,6 +10,16 @@
     <nav>
       <h1><a href="/">KeYed</a></h1>
       <a href="/stats">Stats</a>
+      {#if data.user}
+        {#if data.user.role === 'admin'}
+          <a href="/admin">Dashboard</a>
+        {/if}
+        
+        <a href="/profile">{data.user?.username}</a>
+        <a href="/auth/logout" data-sveltekit-preload-data="off">Logout</a>
+      {:else}
+        <a href="/auth">Login</a>
+      {/if}
     </nav>
     <button on:click={() => theme.toggle()}>
       {$theme === "light" ? "🌙" : "☀️"}
