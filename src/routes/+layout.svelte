@@ -3,6 +3,11 @@
   import { theme } from "$lib/stores/theme";
   import type { PageData } from "./$types";
   export let data: PageData;
+
+  // Apply theme to body element
+  $: if (typeof document !== 'undefined') {
+    document.body.className = $theme;
+  }
 </script>
 
 <div class="app {$theme}">
