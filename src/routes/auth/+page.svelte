@@ -17,9 +17,15 @@
             </button>
             <button 
                 class="tab-button {activeTab === 'register' ? 'active' : ''}" 
-                on:click={() => activeTab = 'register'}
+                on:click={(e) => {
+                    if (!e.currentTarget.disabled) {
+                        activeTab = 'register';
+                    }
+                }}
+                disabled
             >
                 Register
+                <div class="tooltip">Registration is temporarily disabled</div>
             </button>
         </div>
 
@@ -56,6 +62,7 @@
                 <button type="submit">Login</button>
             </form>
         {:else}
+            <div class="disabled-note">Registration is temporarily disabled.</div>
             <form method="POST" action="?/register">
                 <div class="form-group">
                     <label for="register-username">Username</label>
@@ -64,6 +71,7 @@
                         id="register-username"
                         name="username"
                         required
+                        disabled
                     />
                 </div>
 
@@ -74,6 +82,7 @@
                         id="register-email"
                         name="email"
                         required
+                        disabled
                     />
                 </div>
                 
@@ -84,6 +93,7 @@
                         id="register-password"
                         name="password"
                         required
+                        disabled
                     />
                 </div>
 
@@ -94,10 +104,11 @@
                         id="register-confirm-password"
                         name="confirmPassword"
                         required
+                        disabled
                     />
                 </div>
                 
-                <button type="submit">Register</button>
+                <button type="submit" disabled>Register</button>
             </form>
         {/if}
     </div>
@@ -155,10 +166,51 @@
         cursor: pointer;
         color: inherit;
         opacity: 0.7;
+        position: relative;
     }
 
-    .tab-button:hover {
+    .tooltip {
+        visibility: hidden;
+        position: absolute;
+        bottom: 100%;
+        left: 50%;
+        transform: translateX(-50%);
+        padding: 0.5rem 1rem;
+        background-color: #333;
+        color: white;
+        border-radius: 0.5rem;
+        font-size: 0.875rem;
+        white-space: nowrap;
+        margin-bottom: 0.5rem;
+        opacity: 0;
+        transition: opacity 0.2s, visibility 0.2s;
+        z-index: 1000;
+    }
+
+    .tooltip::after {
+        content: '';
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        transform: translateX(-50%);
+        border-width: 5px;
+        border-style: solid;
+        border-color: #333 transparent transparent transparent;
+    }
+
+    .tab-button:hover .tooltip {
+        visibility: visible;
         opacity: 1;
+    }
+
+    .tab-button:hover:not(:disabled) {
+        opacity: 1;
+    }
+
+    .tab-button:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        pointer-events: auto;
     }
 
     .tab-button.active {
@@ -238,5 +290,24 @@
         padding: 0.5rem;
         background: rgba(102, 102, 102, 0.1);
         border-radius: 0.5rem;
+    }
+
+    .disabled-note {
+        color: #666666;
+        margin-bottom: 1rem;
+        padding: 0.5rem;
+        background: rgba(102, 102, 102, 0.1);
+        border-radius: 0.5rem;
+        text-align: center;
+    }
+
+    input:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+
+    button:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
     }
 </style>

@@ -46,6 +46,7 @@ export const actions: Actions = {
     },
 
     register: async ({ request, locals }) => {
+        return fail(403, { error: 'Registration is temporarily disabled.' });
         const formData = await request.formData();
         const username = formData.get('username')?.toString();
         const email = formData.get('email')?.toString();
