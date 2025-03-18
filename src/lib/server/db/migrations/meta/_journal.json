@@ -15,6 +15,13 @@
       "when": 1742306404395,
       "tag": "0001_oval_selene",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1742308262927,
+      "tag": "0002_mighty_thunderball",
+      "breakpoints": true
     }
   ]
 }

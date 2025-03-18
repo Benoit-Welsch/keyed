@@ -14,6 +14,6 @@ export const load: PageServerLoad = async ({ locals }) => {
   //   .all()
 
   return {
-    texts: t,
+    texts: await locals.db.select().from(texts).all(),
   };
 };

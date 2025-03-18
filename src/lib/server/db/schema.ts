@@ -5,7 +5,9 @@ export const texts = sqliteTable("Texts", {
   title: text("title").notNull(),
   content: text("content").notNull(),
   hasSpecialChars: integer("has_special_chars", { mode: "boolean" }).notNull().$defaultFn(() => false),
-  language: text("language"),
-  difficulty: text("difficulty"),
-  type: text("type"),
+  language: text("language").notNull(),
+  difficulty: text("difficulty").notNull(),
+  type: text("type").notNull(),
 });
+
+export const Text = typeof texts.$inferSelect;

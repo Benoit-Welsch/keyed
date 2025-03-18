@@ -24,9 +24,9 @@ export interface TextContent {
   title: string;
   content: string;
   hasSpecialChars: boolean;
-  language: Language;
-  difficulty: Difficulty;
-  type: Type;
+  language: string | Language;
+  difficulty: string | Difficulty;
+  type: string | Type;
 }
 
 const fr = [
