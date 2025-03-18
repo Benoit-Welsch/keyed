@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/vscode/devcontainers/base:dev-bullseye
+FROM mcr.microsoft.com/vscode/devcontainers/base:debian
 
 ARG USERNAME=vscode
 ARG USER_UID=1000

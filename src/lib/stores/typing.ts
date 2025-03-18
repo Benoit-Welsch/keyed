@@ -1,4 +1,4 @@
-import { texts } from '$lib/text';
+import type { TextContent } from '$lib/text';
 import { writable } from 'svelte/store';
 
 export enum Difficulty {
@@ -15,16 +15,6 @@ export enum Language {
   Italian = 'italian'
 }
 
-export interface TextContent {
-  id: string;
-  title: string;
-  content: string;
-  hasSpecialChars: boolean;
-  language: Language;
-  difficulty: Difficulty;
-  type: string;
-}
-
 export interface TypingStats {
   wpm: number;
   accuracy: number;
@@ -33,5 +23,5 @@ export interface TypingStats {
   textId: string;
 }
 
-export let currentText = writable<TextContent>(texts[0]);
+export let currentText = writable<TextContent>();
 export let stats = writable<TypingStats[]>([]);

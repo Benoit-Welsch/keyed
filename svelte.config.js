@@ -3,16 +3,11 @@ import auto from '@sveltejs/adapter-auto';
 import cloudFlare from '@sveltejs/adapter-cloudflare';
 
 
-const adapter = process.env.NODE_ENV === 'development' ? auto() : cloudFlare({
+const adapter = false ? auto() : cloudFlare({
 	routes: {
 		include: ['/*'],
 		exclude: ['<all>']
 	},
-	platformProxy: {
-		configPath: undefined,
-		environment: undefined,
-		persist: undefined
-	}
 })
 
 /** @type {import('@sveltejs/kit').Config} */

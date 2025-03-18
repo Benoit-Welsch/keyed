@@ -3,13 +3,15 @@
   import { textFilter } from "$lib/stores/textFilter";
   import TextFilter from "./TextFilter.svelte";
   import { onMount } from "svelte";
-  import { texts } from "$lib/text";
   import CardButton from "./CardButton.svelte";
-    import { theme } from "$lib/stores/theme";
+  import { theme } from "$lib/stores/theme";
+    import type { TextContent } from "$lib/text";
 
   let languages: string[] = [];
   let difficulties: string[] = [];
   let types: string[] = [];
+
+  export let texts: TextContent[] = [];
 
   onMount(async () => {
     // Extract unique languages and difficulties
@@ -31,7 +33,11 @@
   });
 </script>
 
-<div class="text-selector" class:light={$theme === "light"} class:oled={$theme === "oled"}>
+<div
+  class="text-selector"
+  class:light={$theme === "light"}
+  class:oled={$theme === "oled"}
+>
   <TextFilter
     {languages}
     {difficulties}
@@ -42,7 +48,7 @@
     {#each filteredTexts as text}
       <CardButton
         {text}
-        selected={$currentText.id === text.id}
+        selected={$currentText && $currentText.id === text.id}
         on:click={() => currentText.set(text)}
       />
     {/each}

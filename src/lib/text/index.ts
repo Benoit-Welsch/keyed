@@ -20,7 +20,7 @@ export enum Type {
 }
 
 export interface TextContent {
-  id: string;
+  id: number | string;
   title: string;
   content: string;
   hasSpecialChars: boolean;
@@ -67,7 +67,7 @@ const en = [
     hasSpecialChars: false,
     language: Language.English,
     difficulty: Difficulty.Medium,
-      type: Type.Normal,
+    type: Type.Normal,
   },
   {
     id: 'long-2',

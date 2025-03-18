@@ -1,7 +1,7 @@
 <!-- CardButton.svelte -->
 <script lang="ts">
-  import type { TextContent } from "$lib/stores/typing";
   import { theme } from "$lib/stores/theme";
+    import type { TextContent } from "$lib/text";
 
   export let text: TextContent;
   export let selected: boolean = false;
