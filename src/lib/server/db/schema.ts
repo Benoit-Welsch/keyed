@@ -4,7 +4,7 @@ export const texts = sqliteTable("Texts", {
   id: integer("id").primaryKey(),
   title: text("title").notNull(),
   content: text("content").notNull(),
-  hasSpecialChars: integer("has_special_chars", { mode: "boolean" }).notNull().$defaultFn(() => false),
+  hasSpecialChars: integer("hasSpecialChars", { mode: "boolean" }).notNull().$defaultFn(() => false),
   language: text("language").notNull(),
   difficulty: text("difficulty").notNull(),
   type: text("type").notNull(),
@@ -12,11 +12,11 @@ export const texts = sqliteTable("Texts", {
 
 export const users = sqliteTable("Users", {
   id: integer("id").primaryKey(),
-  email: text("email").notNull().unique(),
+  email: text("email").notNull().unique(),  
   username: text("username").notNull().unique(),
   password: text("password").notNull().unique(),
   role: text("role").notNull().$defaultFn(() => "user"),
-  createdAt: integer("created_at", { mode: "timestamp" }).notNull().$defaultFn(() => new Date()),
+  createdAt: integer("createdAt", { mode: "timestamp" }).notNull().$defaultFn(() => new Date()),
 });
 
 export const Text = typeof texts.$inferSelect;
