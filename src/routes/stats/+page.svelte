@@ -3,19 +3,22 @@
   import { onMount } from "svelte";
   import * as echarts from "echarts";
   import { theme } from "$lib/stores/theme";
+    import type { PageProps } from "./$types";
 
   let chartEl: HTMLDivElement;
   let showRawStats = false;
 
+  const { data }: PageProps = $props();
+
   onMount(() => {
     const chart = echarts.init(chartEl);
     // Use the Stats interface: $stats is an object where key is text and value is { attempts: [...] }
-    const series = Object.entries($stats).map(([text, { attempts }]) => {
+    const series = Object.entries($stats).map(([id, { attempts }]) => {
       const sortedAttempts = attempts
         .slice()
         .sort((a, b) => a.timestamp - b.timestamp);
       return {
-        name: text,
+        name: data.texts.find((text) => text?.id == parseInt(id))?.title || "Unknown",
         type: "line",
         data: sortedAttempts.map((attempt, idx) => [idx + 1, attempt.wpm]),
       };

@@ -149,7 +149,7 @@
 
         // Update stats: store each attempt in an array per key.
         stats.update((current) => {
-          const key = $currentText.id || $currentText.content;
+          const key = $currentText.id || $currentText.title;
           const prevAttempts = current[key]?.attempts || [];
           const newAttempt = {
             wpm: finalWPM,

@@ -1,4 +1,4 @@
-import type { Handle } from "@sveltejs/kit";
+import type { Handle  } from "@sveltejs/kit";
 import { drizzle, type AnyD1Database } from "drizzle-orm/d1";
 
 export const handle: Handle = async ({ event, resolve }) => {
