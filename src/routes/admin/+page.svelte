@@ -239,11 +239,6 @@
         color: #ffffff;
     }
 
-    h1 {
-        color: inherit;
-        margin-bottom: 1rem;
-    }
-
     .stats-section {
         margin: 1rem 0;
         padding: 1.5rem;
