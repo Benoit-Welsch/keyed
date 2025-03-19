@@ -81,38 +81,9 @@
     function cancelDelete() {
         deleteConfirmationId = null;
     }
-
-    type BadgeVariant = 'Easy' | 'Medium' | 'Hard' | 'English' | 'French' | 'Spanish' | 'German' | 'Italian' | 'Normal' | 'Code' | 'Special' | 'Lorem' | 'special' | 'char';
-
-    // Helper function to get the correct variant for badges
-    function getBadgeVariant(value: string, type: 'language' | 'difficulty' | 'type'): BadgeVariant {
-        const variants = {
-            language: {
-                [Language.English]: 'English' as const,
-                [Language.French]: 'French' as const,
-                [Language.Spanish]: 'Spanish' as const,
-                [Language.German]: 'German' as const,
-                [Language.Italian]: 'Italian' as const
-            },
-            difficulty: {
-                [Difficulty.Easy]: 'Easy' as const,
-                [Difficulty.Medium]: 'Medium' as const,
-                [Difficulty.Hard]: 'Hard' as const
-            },
-            type: {
-                [Type.Normal]: 'Normal' as const,
-                [Type.Code]: 'Code' as const,
-                [Type.Special]: 'Special' as const,
-                [Type.Lorem]: 'Lorem' as const
-            }
-        };
-        return variants[type][value as keyof typeof variants[typeof type]] || value as BadgeVariant;
-    }
 </script>
 
 <div class="admin-container {$theme}">
-    <p>You are logged in as: </p>
-
     <div class="stats-section">
         <h2>Statistics</h2>
         <div class="stats-grid">

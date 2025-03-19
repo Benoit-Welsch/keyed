@@ -9,7 +9,8 @@ export enum Language {
   French = 'french',
   Spanish = 'spanish',
   German = 'german',
-  Italian = 'italian'
+  Italian = 'italian',
+  Latin = 'latin',
 }
 
 export enum Type {
