@@ -1,13 +1,19 @@
 <!-- CardButton.svelte -->
 <script lang="ts">
   import { theme } from "$lib/stores/theme";
-    import type { TextContent } from "$lib/text";
+  import type { TextContent } from "$lib/text";
 
   export let text: TextContent;
   export let selected: boolean = false;
+  export let size: "medium" | "large" = "medium";
 </script>
 
-<button class="card-button {$theme}" class:selected on:click>
+<button
+  class="card-button {$theme}"
+  class:selected
+  class:medium={size === "medium"}
+  on:click
+>
   <h2 class="title">
     {text.title}
     <span class="badge char">{text.content.length}</span>
@@ -65,6 +71,20 @@
 
   .card-button.oled.selected {
     background-color: rgba(76, 175, 80, 0.2);
+  }
+
+  .card-button.medium {
+    min-width: 250px;
+    padding: 0.6rem;
+  }
+
+  .card-button.medium .title {
+    font-size: 1rem;
+  }
+
+  .card-button.medium .badge {
+    font-size: 0.75rem;
+    padding: 0.15rem 0.3em;
   }
 
   .title {

@@ -80,7 +80,7 @@
   .text-options {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
-    gap: 0.9rem;
+    gap: 0.6rem;
     margin-top: 0.9rem;
   }
 </style>
