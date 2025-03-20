@@ -2,13 +2,17 @@
   import { theme } from "$lib/stores/theme";
   import { Language, Difficulty, Type } from "$lib/text";
 
-  export let type: "language" | "type" | "special" | "easy" | "medium" | "hard" = "easy";
+  export let type:
+    | "language"
+    | "type"
+    | "special"
+    | "easy"
+    | "medium"
+    | "hard" = "easy";
   export let value: string;
 </script>
 
-<span
-  class="badge {$theme} {type}"
->
+<span class="badge {$theme} {type}">
   {value}
 </span>
 
