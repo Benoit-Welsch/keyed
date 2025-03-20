@@ -4,7 +4,7 @@ import { users } from '$lib/server/db';
 import { eq } from 'drizzle-orm';
 import { verifyPassword, hashPassword } from '$lib/server/auth';
 
-const canRegister = true;
+const canRegister = false;
 
 export const load: PageServerLoad = async ({ locals }) => {
     // If user is already logged in, redirect to admin
@@ -91,7 +91,7 @@ export const actions: Actions = {
             username,
             email,
             password: hashedPassword,
-            role: 'admin'
+            role: 'user'
         });
 
         return { success: true };
