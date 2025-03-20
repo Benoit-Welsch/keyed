@@ -8,6 +8,8 @@
   export let value = "";
   export let placeholder = "Select an option";
   export let label = "";
+  export let name = "";
+  export let id = "";
 
   let isOpen = false;
   let selectedLabel = "";
@@ -69,6 +71,8 @@
     <span class="selected-value">{selectedLabel}</span>
     <span class="arrow" class:open={isOpen}>▼</span>
   </button>
+
+  <select {id} {value} {name}></select>
 
   {#if isOpen}
     <div class="options-container" style="min-width: {maxWidth}" transition:slide={{ duration: 200 }}>
@@ -204,5 +208,9 @@
   .selected-value {
     flex: 1;
     margin-right: 1rem;
+  }
+
+  select{
+    display: none;
   }
 </style>

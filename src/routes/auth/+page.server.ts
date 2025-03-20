@@ -4,11 +4,14 @@ import { users } from '$lib/server/db';
 import { eq } from 'drizzle-orm';
 import { verifyPassword, hashPassword } from '$lib/server/auth';
 
+const canRegister = true;
+
 export const load: PageServerLoad = async ({ locals }) => {
     // If user is already logged in, redirect to admin
     if (locals.user) {
         throw redirect(302, '/admin');
     }
+    return { canRegister };
 };
 
 export const actions: Actions = {
@@ -46,7 +49,7 @@ export const actions: Actions = {
     },
 
     register: async ({ request, locals }) => {
-        return fail(403, { error: 'Registration is temporarily disabled.' });
+        if (!canRegister) return fail(403, { error: 'Registration is temporarily disabled.' });
         const formData = await request.formData();
         const username = formData.get('username')?.toString();
         const email = formData.get('email')?.toString();
@@ -88,7 +91,7 @@ export const actions: Actions = {
             username,
             email,
             password: hashedPassword,
-            role: 'user'
+            role: 'admin'
         });
 
         return { success: true };

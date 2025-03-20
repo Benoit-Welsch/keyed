@@ -1,151 +1,133 @@
 <script lang="ts">
-    import type { ActionData } from './$types';
+    import type { ActionData, PageProps } from "./$types";
     import { theme } from "$lib/stores/theme";
-    export let form: ActionData;
+    let activeTab = $state("login");
 
-    let activeTab = 'login';
+    const { data, form }: PageProps = $props();
 </script>
 
-<div class="container {$theme}">
-    <div class="auth-container">
-        <div class="tabs">
-            <button 
-                class="tab-button {activeTab === 'login' ? 'active' : ''}" 
-                on:click={() => activeTab = 'login'}
-            >
-                Login
-            </button>
-            <button 
-                class="tab-button {activeTab === 'register' ? 'active' : ''}" 
-                on:click={(e) => {
-                    if (!e.currentTarget.disabled) {
-                        activeTab = 'register';
-                    }
-                }}
-                disabled
-            >
-                Register
+<div class="auth-container {$theme}">
+    <div class="tabs">
+        <button
+            class="tab-button {activeTab === 'login' ? 'active' : ''}"
+            onclick={() => (activeTab = "login")}
+        >
+            Login
+        </button>
+        <button
+            class="tab-button {activeTab === 'register' ? 'active' : ''}"
+            onclick={(e) => {
+                if (data.canRegister) {
+                    activeTab = "register";
+                }
+            }}
+            disabled={!data.canRegister}
+        >
+            Register
+            {#if !data.canRegister}
                 <div class="tooltip">Registration is temporarily disabled</div>
-            </button>
-        </div>
-
-        {#if form?.error}
-            <div class="error">{form.error}</div>
-        {/if}
-
-        {#if form?.success}
-            <div class="success">Registration successful! Please login.</div>
-        {/if}
-
-        {#if activeTab === 'login'}
-            <form method="POST" action="?/login">
-                <div class="form-group">
-                    <label for="login-username">Username</label>
-                    <input
-                        type="text"
-                        id="login-username"
-                        name="username"
-                        required
-                    />
-                </div>
-                
-                <div class="form-group">
-                    <label for="login-password">Password</label>
-                    <input
-                        type="password"
-                        id="login-password"
-                        name="password"
-                        required
-                    />
-                </div>
-                
-                <button type="submit">Login</button>
-            </form>
-        {:else}
-            <div class="disabled-note">Registration is temporarily disabled.</div>
-            <form method="POST" action="?/register">
-                <div class="form-group">
-                    <label for="register-username">Username</label>
-                    <input
-                        type="text"
-                        id="register-username"
-                        name="username"
-                        required
-                        disabled
-                    />
-                </div>
-
-                <div class="form-group">
-                    <label for="register-email">Email</label>
-                    <input
-                        type="email"
-                        id="register-email"
-                        name="email"
-                        required
-                        disabled
-                    />
-                </div>
-                
-                <div class="form-group">
-                    <label for="register-password">Password</label>
-                    <input
-                        type="password"
-                        id="register-password"
-                        name="password"
-                        required
-                        disabled
-                    />
-                </div>
-
-                <div class="form-group">
-                    <label for="register-confirm-password">Confirm Password</label>
-                    <input
-                        type="password"
-                        id="register-confirm-password"
-                        name="confirmPassword"
-                        required
-                        disabled
-                    />
-                </div>
-                
-                <button type="submit" disabled>Register</button>
-            </form>
-        {/if}
+            {/if}
+        </button>
     </div>
+
+    {#if form?.error}
+        <div class="error">{form.error}</div>
+    {/if}
+
+    {#if form?.success}
+        <div class="success">Registration successful! Please login.</div>
+    {/if}
+
+    {#if activeTab === "login"}
+        <form method="POST" action="?/login">
+            <div class="form-group">
+                <label for="login-username">Username</label>
+                <input
+                    type="text"
+                    id="login-username"
+                    name="username"
+                    required
+                />
+            </div>
+
+            <div class="form-group">
+                <label for="login-password">Password</label>
+                <input
+                    type="password"
+                    id="login-password"
+                    name="password"
+                    required
+                />
+            </div>
+
+            <button type="submit">Login</button>
+        </form>
+    {:else}
+        <form method="POST" action="?/register">
+            <div class="form-group">
+                <label for="register-username">Username</label>
+                <input
+                    type="text"
+                    id="register-username"
+                    name="username"
+                    required
+                    disabled={!data.canRegister}
+                />
+            </div>
+
+            <div class="form-group">
+                <label for="register-email">Email</label>
+                <input
+                    type="email"
+                    id="register-email"
+                    name="email"
+                    required
+                    disabled={!data.canRegister}
+                />
+            </div>
+
+            <div class="form-group">
+                <label for="register-password">Password</label>
+                <input
+                    type="password"
+                    id="register-password"
+                    name="password"
+                    required
+                    disabled={!data.canRegister}
+                />
+            </div>
+
+            <div class="form-group">
+                <label for="register-confirm-password">Confirm Password</label>
+                <input
+                    type="password"
+                    id="register-confirm-password"
+                    name="confirmPassword"
+                    required
+                    disabled={!data.canRegister}
+                />
+            </div>
+
+            <button type="submit" disabled={!data.canRegister}>Register</button>
+        </form>
+    {/if}
 </div>
 
 <style>
-    .container {
-        min-height: 100vh;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .container.light {
-        background-color: #ffffff;
-        color: #000000;
-    }
-
-    .container.oled {
-        background-color: #000000;
-        color: #ffffff;
-    }
-
     .auth-container {
         max-width: 400px;
-        margin: 2rem auto;
-        padding: 2rem;
+        margin: 1rem auto;
+        padding: 1.5rem;
         border-radius: 0.75rem;
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     }
 
-    .light .auth-container {
+    .auth-container.light {
         background-color: #ffffff;
         border: 1px solid #e0e0e0;
     }
 
-    .oled .auth-container {
+    .auth-container.oled {
         background-color: hsla(0, 0%, 10%, 0.5);
         border: 1px solid #333;
     }
@@ -183,12 +165,14 @@
         white-space: nowrap;
         margin-bottom: 0.5rem;
         opacity: 0;
-        transition: opacity 0.2s, visibility 0.2s;
+        transition:
+            opacity 0.2s,
+            visibility 0.2s;
         z-index: 1000;
     }
 
     .tooltip::after {
-        content: '';
+        content: "";
         position: absolute;
         top: 100%;
         left: 50%;

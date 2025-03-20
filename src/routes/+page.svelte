@@ -15,7 +15,7 @@
 </script>
 
 {#if !data.texts}
-  <p>Loading...</p>
+  <p>Coming soon !</p>
 {:else}
   <div class="container">
     <TextSelector texts={data.texts} />
