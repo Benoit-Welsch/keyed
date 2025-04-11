@@ -40,7 +40,7 @@
 <main>
   <h1>Stats</h1>
   <div bind:this={chartEl} style="width: 100%; height: 400px;"></div>
-  <button on:click={() => (showRawStats = !showRawStats)} class={$theme}>
+  <button onClick={() => (showRawStats = !showRawStats)} class={$theme}>
     {showRawStats ? "Hide" : "Show"} Raw Stats
   </button>
   {#if showRawStats}
