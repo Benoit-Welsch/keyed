@@ -6,6 +6,7 @@
   import { browser } from "$app/environment";
   import { stats } from "$lib/stores/stats";
   import { isMac, isMobile } from "$lib/stores/device";
+  import ToolTip from "./ToolTip.svelte";
 
   let input = "";
   let currentIndex = 0;
@@ -225,7 +226,7 @@
       <span class="value"> {(elapsedTime / 1000).toFixed(1)}s</span>
     </div>
     <div class="stat accuracy">
-      <span class="label"> Acc: </span>
+      <span class="label"> Acc: <ToolTip>Accuracy</ToolTip> </span>
       <span class="value">{accuracy.toFixed(1)}%</span>
     </div>
     <div class="stat progress">
