@@ -7,31 +7,37 @@
   import { stats } from "$lib/stores/stats";
   import { isMac, isMobile } from "$lib/stores/device";
   import ToolTip from "./ToolTip.svelte";
+  import ProgressBar from "./ProgressBar.svelte";
 
-  let input = "";
-  let currentIndex = 0;
-  let mistakes = 0;
-  let correctChars = 0;
-  let correctWords = 0;
-  let currentWordStart = 0;
-  let currentWordMistakes = 0; // Track mistakes in current word
-  let isFinished = false;
-  let startTime: number | null = null;
-  let elapsedTime = 0;
+  let input = $state("");
+  let currentIndex = $state(0);
+  let mistakes = $state(0);
+  let correctChars = $state(0);
+  let correctWords = $state(0);
+  let currentWordStart = $state(0);
+  let currentWordMistakes = $state(0); // Track mistakes in current word
+  let isFinished = $state(false);
+  let startTime: number | null = $state(null);
+  let elapsedTime = $state(0);
   let timer: number;
-  let currentWPM = 0;
-  let currentCPM = 0;
+  let currentWPM = $state(0);
+  let currentCPM = $state(0);
   let inputElement: HTMLInputElement;
-  let typedChars: string[] = []; // Track typed characters
+  let typedChars: string[] = $state([]); // Track typed characters
 
-  $: accuracy =
-    currentIndex === 0 ? 100 : ((currentIndex - mistakes) / currentIndex) * 100;
-  $: progress = (currentIndex / $currentText.content.length) * 100;
+  const accuracy = $derived(() => {
+    if (currentIndex === 0) return 100;
+    return ((currentIndex - mistakes) / currentIndex) * 100;
+  });
 
-  $: {
-    $currentText;
+  const progress = $derived(() => {
+    if (currentIndex === 0) return 0;
+    return (currentIndex / $currentText.content.length) * 100;
+  });
+
+  currentText.subscribe((text) => {
     reset();
-  }
+  });
 
   onMount(() => {
     const handleWindowKeydown = (event: KeyboardEvent) => {
@@ -190,7 +196,6 @@
     elapsedTime = 0;
     currentWPM = 0;
     currentCPM = 0;
-    progress = 0;
 
     if (browser) {
       window.cancelAnimationFrame(timer);
@@ -227,15 +232,13 @@
     </div>
     <div class="stat accuracy">
       <span class="label"> Acc: <ToolTip>Accuracy</ToolTip> </span>
-      <span class="value">{accuracy.toFixed(1)}%</span>
+      <span class="value">{accuracy().toFixed(1)}%</span>
     </div>
     <div class="stat progress">
       <span class="label"> Progress: </span>
-      <span class="value">{Math.round(progress)}%</span>
+      <span class="value">{Math.round(progress())}%</span>
     </div>
-    <div class="progress-bar">
-      <div class="progress" style="width: {progress}%"></div>
-    </div>
+    <ProgressBar progress={progress()} />
   </div>
 
   <div class="text-display">
@@ -264,11 +267,11 @@
     autocomplete="off"
     autocapitalize="off"
     spellcheck="false"
-    on:keydown={handleKeydown}
+    onkeydown={handleKeydown}
   />
 
   <div class="controls">
-    <button on:click={reset}>
+    <button onclick={reset}>
       <span> Reset </span>
       {#if isMac}
         <span class="shortcut">⌥R</span>
@@ -278,7 +281,7 @@
     </button>
     {#if isFinished}
       <div class="completion-message">
-        Great job! You completed the text with {accuracy.toFixed(1)}% accuracy
+        Great job! You completed the text with {accuracy().toFixed(1)}% accuracy
         at {currentWPM} WPM in {(elapsedTime / 1000).toFixed(1)} seconds.
       </div>
     {/if}
@@ -395,20 +398,6 @@
   .oled button {
     background-color: #333;
     color: #ffffff;
-  }
-
-  .progress-bar {
-    width: 100%;
-    height: 0.5rem;
-    background-color: rgba(128, 128, 128, 0.1);
-    border-radius: 0.25rem;
-    overflow: hidden;
-  }
-
-  .progress-bar .progress {
-    height: 100%;
-    background-color: #4caf50;
-    transition: width 0.2s ease;
   }
 
   .finished .typing-input {
