@@ -1,6 +1,5 @@
 <script lang="ts">
   import { theme } from "$lib/stores/theme";
-  import { Language, Difficulty, Type } from "$lib/text";
 
   export let type:
     | "language"
@@ -8,7 +7,8 @@
     | "special"
     | "easy"
     | "medium"
-    | "hard" = "easy";
+    | "hard"
+    | undefined = undefined;
   export let value: string;
 </script>
 
@@ -18,11 +18,18 @@
 
 <style>
   .badge {
-    padding: 0.2rem 0.5rem;
+    padding: 0.15rem 0.3rem;
     border-radius: 4px;
     font-size: 0.8rem;
     text-transform: capitalize;
     color: white;
+  }
+
+  .badge.oled {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+  .badge.light {
+    background-color: hsla(0, 0%, 10%, 0.5);
   }
 
   /* Language badge */

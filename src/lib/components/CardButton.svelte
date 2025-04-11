@@ -2,6 +2,7 @@
 <script lang="ts">
   import { theme } from "$lib/stores/theme";
   import type { TextContent } from "$lib/text";
+  import Badge from "./Badge.svelte";
 
   export let text: TextContent;
   export let selected: boolean = false;
@@ -19,11 +20,14 @@
     <span class="badge char">{text.content.length}</span>
   </h2>
   <div class="badges">
-    <span class="badge language">{text.language}</span>
-    <span class="badge difficulty {text.difficulty}">{text.difficulty}</span>
-    <span class="badge type">{text.type}</span>
+    <Badge type="language" value={text.language} />
+    <Badge
+      type={text.difficulty.toLowerCase() as "easy" | "medium" | "hard"}
+      value={text.difficulty}
+    />
+    <Badge type="type" value={text.type} />
     {#if text.hasSpecialChars}
-      <span class="badge special">Special Chars</span>
+      <Badge type="special" value="Special Chars" />
     {/if}
   </div>
 </button>
