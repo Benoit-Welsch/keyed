@@ -101,7 +101,7 @@
           // Find the start of the previous word
           const textUpToCurrent = $currentText.content.slice(
             0,
-            currentIndex - 1
+            currentIndex - 1,
           );
           currentWordStart = textUpToCurrent.lastIndexOf(" ") + 1;
           currentWordMistakes = 0; // Reset word mistakes
@@ -225,7 +225,7 @@
       <span class="value"> {(elapsedTime / 1000).toFixed(1)}s</span>
     </div>
     <div class="stat accuracy">
-      <span class="label"> Accuracy: </span>
+      <span class="label"> Acc: </span>
       <span class="value">{accuracy.toFixed(1)}%</span>
     </div>
     <div class="stat progress">
@@ -311,13 +311,15 @@
     display: flex;
     gap: 0.6rem;
     flex-wrap: wrap;
+    justify-content: space-around;
   }
 
   .stat {
     flex: 1;
-    width: 150px;
+    display: flex;
+    justify-content: space-between;
     padding: 0.3rem 0.6rem;
-    border-radius: 0.5rem;
+    border-radius: 0.6rem;
     background-color: rgba(128, 128, 128, 0.1);
   }
 
