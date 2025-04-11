@@ -3,10 +3,10 @@
   import { onMount } from "svelte";
   import * as echarts from "echarts";
   import { theme } from "$lib/stores/theme";
-    import type { PageProps } from "./$types";
+  import type { PageProps } from "./$types";
 
   let chartEl: HTMLDivElement;
-  let showRawStats = false;
+  let showRawStats = $state(false);
 
   const { data }: PageProps = $props();
 
@@ -18,7 +18,9 @@
         .slice()
         .sort((a, b) => a.timestamp - b.timestamp);
       return {
-        name: data.texts.find((text) => text?.id == parseInt(id))?.title || "Unknown",
+        name:
+          data.texts.find((text) => text?.id == parseInt(id))?.title ||
+          "Unknown",
         type: "line",
         data: sortedAttempts.map((attempt, idx) => [idx + 1, attempt.wpm]),
       };
@@ -40,7 +42,7 @@
 <main>
   <h1>Stats</h1>
   <div bind:this={chartEl} style="width: 100%; height: 400px;"></div>
-  <button onClick={() => (showRawStats = !showRawStats)} class={$theme}>
+  <button onclick={() => (showRawStats = !showRawStats)} class={$theme}>
     {showRawStats ? "Hide" : "Show"} Raw Stats
   </button>
   {#if showRawStats}
