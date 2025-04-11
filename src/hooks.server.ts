@@ -1,8 +1,6 @@
 import type { Handle } from "@sveltejs/kit";
 import { drizzle, type AnyD1Database } from "drizzle-orm/d1";
 import { sequence } from '@sveltejs/kit/hooks';
-import { users } from "$lib/server/db";
-import { eq } from "drizzle-orm";
 
 const authHook: Handle = async ({ event, resolve }) => {
     // Get the session cookie

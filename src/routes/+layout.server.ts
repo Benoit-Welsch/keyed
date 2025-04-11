@@ -1,6 +1,6 @@
 import { texts } from "$lib/server/db";
 import { texts as t } from "$lib/text"
-import type { LayoutServerLoad, PageServerLoad } from "./$types";
+import type { LayoutServerLoad } from "./$types";
 
 export const load: LayoutServerLoad = async ({ locals }) => {
   let textsFromDb = await locals.db.select().from(texts).all();
