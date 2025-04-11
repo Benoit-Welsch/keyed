@@ -108,12 +108,12 @@
   }
 
   .select-button {
-    padding: 0.6rem;
+    padding: 0.3rem;
     border: 2px solid transparent;
     border-radius: 0.5rem;
     background: none;
     font-weight: bold;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     text-align: left;
     cursor: pointer;
     display: flex;
@@ -156,9 +156,9 @@
   .options-container {
     position: absolute;
     top: 100%;
-    left: 32%;
-    margin-top: 0.5rem;
-    border-radius: 0.5rem;
+    left: 0%;
+    margin-top: 0.3rem;
+    border-radius: 0.6rem;
     overflow: hidden;
     z-index: 10;
     box-shadow:
@@ -178,10 +178,10 @@
 
   .option {
     width: 100%;
-    padding: 0.75rem 1rem;
+    padding: 0.3rem 0.6rem;
     border: none;
     background: none;
-    font-size: 0.95rem;
+    font-size: 0.85rem;
     text-align: left;
     cursor: pointer;
     transition: all 0.2s ease;
